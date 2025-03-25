@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Reports</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Generate Reports</h2>
+    <form id="reportForm">
+        <select id="reportType">
+            <option>Monthly Patrak</option>
+            <option>MIS Report</option>
+        </select>
+        <select id="organizationSelect"></select>
+        <input type="date" id="startDate" required>
+        <input type="date" id="endDate" required>
+        <button type="submit">Generate</button>
+    </form>
+    <script src="script.js"></script>
+</body>
+</html>

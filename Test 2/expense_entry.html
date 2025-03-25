@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Entry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Log Expenses</h2>
+    <form id="expenseForm">
+        <input type="text" id="organizationName" readonly>
+        <select id="expenseCategory">
+            <option>Food</option>
+            <option>Transport</option>
+            <option>Maintenance</option>
+        </select>
+        <input type="number" id="expenseAmount" placeholder="Amount" required>
+        <input type="date" id="expenseDate" required>
+        <button type="submit">Log Expense</button>
+    </form>
+    <script src="script.js"></script>
+</body>
+</html>
