@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Bill - PM Poshan Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2>PM Poshan Portal</h2>
+        <p>User Dashboard</p>
+      </div>
+      
+      <nav>
+        <ul>
+          <li><a href="user-dashboard.html" data-page="user-dashboard">Dashboard</a></li>
+          <li><a href="bill-submission.html" class="active" data-page="bill-submission">Submit Bills</a></li>
+          <li><a href="expense-entry.html" data-page="expense-entry">Enter Expenses</a></li>
+          <li><a href="notifications.html" data-page="notifications">Notifications</a></li>
+        </ul>
+      </nav>
+      
+      <div style="padding: 20px;">
+        <button id="user-logout-2" class="btn-secondary">Logout</button>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <header>
+        <h1>Submit New Bill</h1>
+        <p>Fill out the form to submit a new bill for approval</p>
+      </header>
+      
+      <div class="form-container">
+        <form id="bill-form">
+          <div class="form-group">
+            <label for="organization-name">Organization Name</label>
+            <input type="text" id="organization-name" value="ABC Organization" disabled>
+          </div>
+          
+          <div class="form-group">
+            <label for="bill-amount">Bill Amount (₹)</label>
+            <input type="number" id="bill-amount" placeholder="Enter bill amount" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="bill-description">Bill Description</label>
+            <textarea id="bill-description" placeholder="Enter bill description" rows="4" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label>Supporting Documents (Optional)</label>
+            <div class="file-upload">
+              <input type="file" id="bill-document">
+              <div class="file-upload-box">
+                <p>Drag and drop files here or click to browse</p>
+                <p class="small">PDF, PNG, JPG or DOCX (MAX. 10MB)</p>
+              </div>
+              <div id="file-name" class="file-name hidden"></div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="submission-date">Submission Date</label>
+            <input type="date" id="submission-date" disabled>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" id="bill-cancel" class="btn-secondary">Cancel</button>
+            <button type="submit" class="btn-primary">Submit Bill</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Notification -->
+  <div id="notification" class="notification hidden">
+    <div class="notification-content">
+      <p id="notification-message"></p>
+      <button id="notification-close">&times;</button>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

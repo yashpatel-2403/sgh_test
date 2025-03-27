@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grant Allocation - PM Poshan Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2>PM Poshan Portal</h2>
+        <p>Administrator Dashboard</p>
+      </div>
+      
+      <nav>
+        <ul>
+          <li><a href="admin-dashboard.html" data-page="admin-dashboard">Dashboard</a></li>
+          <li><a href="bill-approval.html" data-page="bill-approval">Approve Bills</a></li>
+          <li><a href="grant-allocation.html" class="active" data-page="grant-allocation">Allocate Grants</a></li>
+          <li><a href="report-generation.html" data-page="report-generation">Generate Reports</a></li>
+          <li><a href="organization-management.html" data-page="organization-management">Manage Organizations</a></li>
+          <li><a href="notifications.html" data-page="notifications">Notifications</a></li>
+        </ul>
+      </nav>
+      
+      <div style="padding: 20px;">
+        <button id="admin-logout-3" class="btn-secondary">Logout</button>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <header>
+        <h1>Grant Allocation</h1>
+        <p>Manage and track grant allocations to organizations</p>
+      </header>
+      
+      <div class="form-container">
+        <h2>Allocate New Grant</h2>
+        
+        <form id="grant-form">
+          <div class="form-group">
+            <label for="organization-select">Select Organization</label>
+            <select id="organization-select" required>
+              <option value="">Select an organization</option>
+              <option value="org-1">ABC Organization (Budget: ₹500,000)</option>
+              <option value="org-2">XYZ Foundation (Budget: ₹400,000)</option>
+              <option value="org-3">PQR Trust (Budget: ₹300,000)</option>
+              <option value="org-4">DEF Association (Budget: ₹450,000)</option>
+              <option value="org-5">GHI Society (Budget: ₹350,000)</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="grant-amount">Grant Amount (₹)</label>
+            <input type="number" id="grant-amount" placeholder="Enter grant amount" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="grant-date">Allocation Date</label>
+            <input type="date" id="grant-date" required>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" id="grant-reset" class="btn-secondary">Reset</button>
+            <button type="submit" class="btn-primary">Allocate Grant</button>
+          </div>
+        </form>
+        
+        <h2 style="margin-top: 40px;">Grant Allocation History</h2>
+        
+        <div class="rounded-md border" style="margin-top: 20px;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background-color: #f6f7f9;">
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Allocation ID</th>
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Organization</th>
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Amount (₹)</th>
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Date</th>
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 10px;">ALLOC-001</td>
+                <td style="padding: 10px;">ABC Organization</td>
+                <td style="padding: 10px;">₹250,000</td>
+                <td style="padding: 10px;">2023-06-01</td>
+                <td style="padding: 10px;"><span class="approved">Completed</span></td>
+              </tr>
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 10px;">ALLOC-002</td>
+                <td style="padding: 10px;">XYZ Foundation</td>
+                <td style="padding: 10px;">₹180,000</td>
+                <td style="padding: 10px;">2023-06-10</td>
+                <td style="padding: 10px;"><span class="approved">Completed</span></td>
+              </tr>
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 10px;">ALLOC-003</td>
+                <td style="padding: 10px;">PQR Trust</td>
+                <td style="padding: 10px;">₹150,000</td>
+                <td style="padding: 10px;">2023-06-15</td>
+                <td style="padding: 10px;"><span class="approved">Completed</span></td>
+              </tr>
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 10px;">ALLOC-004</td>
+                <td style="padding: 10px;">GHI Society</td>
+                <td style="padding: 10px;">₹200,000</td>
+                <td style="padding: 10px;">2023-06-20</td>
+                <td style="padding: 10px;"><span class="approved">Completed</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Notification -->
+  <div id="notification" class="notification hidden">
+    <div class="notification-content">
+      <p id="notification-message"></p>
+      <button id="notification-close">&times;</button>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

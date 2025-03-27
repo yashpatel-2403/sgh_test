@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications - PM Poshan Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2>PM Poshan Portal</h2>
+        <p id="role-display">Dashboard</p>
+      </div>
+      
+      <!-- Sidebar navigation will be dynamically populated based on user role -->
+      <nav id="dynamic-nav">
+        <!-- Navigation links will be populated by JavaScript -->
+      </nav>
+      
+      <div style="padding: 20px;">
+        <button id="logout-btn" class="btn-secondary">Logout</button>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <header>
+        <h1>Notifications</h1>
+        <p>System notifications and updates</p>
+      </header>
+      
+      <div class="form-container">
+        <div class="rounded-md border">
+          <table id="notifications-table" style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background-color: #f6f7f9;">
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Date</th>
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Message</th>
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Type</th>
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Status</th>
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="notifications-body">
+              <!-- Notification rows will be loaded via JavaScript/API -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="notification hidden">
+    <div class="notification-content">
+      <p id="notification-message"></p>
+      <button id="notification-close">&times;</button>
+    </div>
+  </div>
+  
+  <!-- Required Lovable script tag -->
+  <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+  <script src="script.js"></script>
+  <script src="api.js"></script>
+  <script>
+    // Specific script for the notifications page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load user info
+      const userRole = sessionStorage.getItem('userRole');
+      const roleDisplay = document.getElementById('role-display');
+      const dynamicNav = document.getElementById('dynamic-nav');
+      
+      // Update role display
+      if (roleDisplay) {
+        roleDisplay.textContent = userRole === 'admin' ? 'Administrator Dashboard' : 'User Dashboard';
+      }
+      
+      // Generate navigation based on role
+      generateNavigation(userRole, 'notifications');
+      
+      // Load notifications data
+      loadNotifications();
+      
+      // Handle notification actions (mark as read/delete)
+      document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('notification-action')) {
+          const action = event.target.getAttribute('data-action');
+          const id = parseInt(event.target.getAttribute('data-id'));
+          const row = event.target.closest('tr');
+          
+          if (action === 'read') {
+            markNotificationAsRead(id, row);
+          } else if (action === 'delete') {
+            deleteNotification(id, row);
+          }
+        }
+      });
+      
+      // Handle logout
+      const logoutBtn = document.getElementById('logout-btn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', handleLogout);
+      }
+    });
+    
+    // Function to load notifications - will be connected to API
+    function loadNotifications() {
+      const notificationsBody = document.getElementById('notifications-body');
+      
+      // In Django integration, this would be a fetch request to an API endpoint
+      api.getNotifications()
+        .then(notifications => {
+          // Clear existing rows
+          notificationsBody.innerHTML = '';
+          
+          // Add notification rows
+          notifications.forEach(notification => {
+            const row = document.createElement('tr');
+            
+            // Set background color based on status
+            if (notification.status === 'Unread') {
+              row.style.backgroundColor = '#f0f9ff';
+            }
+            
+            row.setAttribute('data-id', notification.id);
+            
+            row.innerHTML = `
+              <td style="padding: 10px;">${notification.date}</td>
+              <td style="padding: 10px;">${notification.message}</td>
+              <td style="padding: 10px;">${notification.type}</td>
+              <td style="padding: 10px;">${notification.status}</td>
+              <td style="padding: 10px;">
+                <button class="btn-secondary notification-action" style="padding: 6px 12px;" 
+                  data-action="${notification.status === 'Unread' ? 'read' : 'delete'}" 
+                  data-id="${notification.id}">
+                  ${notification.status === 'Unread' ? 'Mark as Read' : 'Delete'}
+                </button>
+              </td>
+            `;
+            
+            notificationsBody.appendChild(row);
+          });
+        })
+        .catch(error => {
+          console.error('Error loading notifications:', error);
+          showNotification('Failed to load notifications. Please try again.');
+        });
+    }
+    
+    function markNotificationAsRead(id, row) {
+      // In Django integration, this would be a PATCH/PUT request to an API endpoint
+      api.markNotificationAsRead(id)
+        .then(() => {
+          // Update the UI
+          row.style.backgroundColor = 'transparent';
+          const actionButton = row.querySelector('.notification-action');
+          actionButton.textContent = 'Delete';
+          actionButton.setAttribute('data-action', 'delete');
+          row.querySelector('td:nth-child(4)').textContent = 'Read';
+          
+          showNotification('Notification marked as read.');
+        })
+        .catch(error => {
+          console.error('Error marking notification as read:', error);
+          showNotification('Failed to update notification. Please try again.');
+        });
+    }
+    
+    function deleteNotification(id, row) {
+      // In Django integration, this would be a DELETE request to an API endpoint
+      api.deleteNotification(id)
+        .then(() => {
+          // Update the UI with animation
+          row.style.opacity = '0.5';
+          setTimeout(() => {
+            row.remove();
+          }, 500);
+          
+          showNotification('Notification deleted.');
+        })
+        .catch(error => {
+          console.error('Error deleting notification:', error);
+          showNotification('Failed to delete notification. Please try again.');
+        });
+    }
+  </script>
+</body>
+</html>

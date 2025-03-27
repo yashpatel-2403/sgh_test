@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard - PM Poshan Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2>PM Poshan Portal</h2>
+        <p>User Dashboard</p>
+      </div>
+      
+      <nav id="dynamic-nav">
+        <ul>
+          <li><a href="user-dashboard.html" class="active" data-page="user-dashboard">Dashboard</a></li>
+          <li><a href="bill-submission.html" data-page="bill-submission">Submit Bills</a></li>
+          <li><a href="expense-entry.html" data-page="expense-entry">Enter Expenses</a></li>
+          <li><a href="notifications.html" data-page="notifications">Notifications</a></li>
+        </ul>
+      </nav>
+      
+      <div style="padding: 20px;">
+        <button id="logout-btn" class="btn-secondary">Logout</button>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <header>
+        <h1>User Dashboard</h1>
+        <p>Overview of your bills and expenses</p>
+      </header>
+      
+      <!-- Stats Cards -->
+      <div class="stats-container" id="stats-container">
+        <!-- Stats will be loaded via JavaScript/API -->
+      </div>
+      
+      <!-- Additional Stats -->
+      <div class="additional-stats">
+        <div class="stat-card wide">
+          <h3>Recent Bills</h3>
+          <ul class="activity-list" id="recent-bills-list">
+            <!-- Recent bills will be loaded via JavaScript/API -->
+          </ul>
+        </div>
+        
+        <div class="stat-card wide">
+          <h3>Quick Actions</h3>
+          <div class="quick-actions">
+            <a href="bill-submission.html" class="btn-secondary">Submit New Bill</a>
+            <a href="expense-entry.html" class="btn-secondary">Record New Expense</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="notification hidden">
+    <div class="notification-content">
+      <p id="notification-message"></p>
+      <button id="notification-close">&times;</button>
+    </div>
+  </div>
+  
+  <script src="api.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // User dashboard specific script
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load dashboard data
+      loadDashboardData();
+      
+      // Generate navigation menu
+      generateNavigation('user', 'user-dashboard');
+    });
+    
+    function loadDashboardData() {
+      // Load bills and stats
+      loadBillsData();
+      
+      // Create stats cards
+      createStatCards();
+    }
+    
+    function loadBillsData() {
+      api.getBills()
+        .then(bills => {
+          const recentBillsList = document.getElementById('recent-bills-list');
+          
+          // Filter bills for this user (in a real app, the API would already filter these)
+          const userBills = bills.filter(bill => bill.organizationName === 'ABC Organization');
+          
+          if (recentBillsList) {
+            recentBillsList.innerHTML = '';
+            
+            if (userBills.length === 0) {
+              recentBillsList.innerHTML = '<li>No bills submitted yet.</li>';
+              return;
+            }
+            
+            // Sort by date descending
+            userBills.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Show the most recent 5 bills
+            const recentBills = userBills.slice(0, 5);
+            
+            recentBills.forEach(bill => {
+              const statusClass = getStatusClass(bill.status);
+              
+              const listItem = document.createElement('li');
+              listItem.innerHTML = `
+                ${bill.description} bill of ₹${bill.amount.toLocaleString()} 
+                <span class="${statusClass}">${capitalizeFirstLetter(bill.status)}</span>
+              `;
+              
+              recentBillsList.appendChild(listItem);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error loading bills:', error);
+          showNotification('Failed to load recent bills. Please try again.');
+        });
+    }
+    
+    function createStatCards() {
+      // In a real app, this would come from API calls
+      Promise.all([
+        api.getBills(),
+        api.getExpenses()
+      ])
+        .then(([bills, expenses]) => {
+          // Filter bills for this user
+          const userBills = bills.filter(bill => bill.organizationName === 'ABC Organization');
+          
+          // Calculate totals
+          const billsSubmitted = userBills.length;
+          const approvedBills = userBills.filter(bill => bill.status === 'approved').length;
+          const pendingBills = userBills.filter(bill => bill.status === 'pending').length;
+          const rejectedBills = userBills.filter(bill => bill.status === 'rejected').length;
+          
+          // Calculate total expenses
+          const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+          
+          // Calculate available funds (This would come from API in a real app)
+          const availableFunds = 560000; // Mock data
+          
+          // Create stats cards HTML
+          const statsContainer = document.getElementById('stats-container');
+          
+          if (statsContainer) {
+            statsContainer.innerHTML = `
+              <div class="stat-card">
+                <h3>Bills Submitted</h3>
+                <div class="stat-value">${billsSubmitted}</div>
+                <div class="stat-details">
+                  <div class="approved">Approved: ${approvedBills}</div>
+                  <div class="pending">Pending: ${pendingBills}</div>
+                  <div class="rejected">Rejected: ${rejectedBills}</div>
+                </div>
+                <a href="bill-submission.html">Submit new bill</a>
+              </div>
+              
+              <div class="stat-card">
+                <h3>Total Expenses</h3>
+                <div class="stat-value">₹${totalExpenses.toLocaleString()}</div>
+                <p class="stat-description">This month's expenses</p>
+                <a href="expense-entry.html">Enter new expense</a>
+              </div>
+              
+              <div class="stat-card">
+                <h3>Available Funds</h3>
+                <div class="stat-value">₹${availableFunds.toLocaleString()}</div>
+                <p class="stat-description">Remaining allocated funds</p>
+              </div>
+            `;
+          }
+        })
+        .catch(error => {
+          console.error('Error loading dashboard data:', error);
+          showNotification('Failed to load dashboard data. Please try again.');
+        });
+    }
+    
+    // Helper functions
+    function getStatusClass(status) {
+      switch (status) {
+        case 'approved':
+          return 'approved';
+        case 'pending':
+          return 'pending';
+        case 'rejected':
+          return 'rejected';
+        default:
+          return '';
+      }
+    }
+    
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+  </script>
+</body>
+</html>

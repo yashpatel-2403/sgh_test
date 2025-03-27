@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bill Approval - PM Poshan Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2>PM Poshan Portal</h2>
+        <p>Administrator Dashboard</p>
+      </div>
+      
+      <nav>
+        <ul>
+          <li><a href="admin-dashboard.html" data-page="admin-dashboard">Dashboard</a></li>
+          <li><a href="bill-approval.html" class="active" data-page="bill-approval">Approve Bills</a></li>
+          <li><a href="grant-allocation.html" data-page="grant-allocation">Allocate Grants</a></li>
+          <li><a href="report-generation.html" data-page="report-generation">Generate Reports</a></li>
+          <li><a href="organization-management.html" data-page="organization-management">Manage Organizations</a></li>
+          <li><a href="notifications.html" data-page="notifications">Notifications</a></li>
+        </ul>
+      </nav>
+      
+      <div style="padding: 20px;">
+        <button id="admin-logout-2" class="btn-secondary">Logout</button>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <header>
+        <h1>Bill Approval</h1>
+        <p>Review and approve pending bills</p>
+      </header>
+      
+      <div class="form-container">
+        <h2>Pending Bills</h2>
+        
+        <div class="rounded-md border" style="margin-top: 20px;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background-color: #f6f7f9;">
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Bill ID</th>
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Organization</th>
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Amount (₹)</th>
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Submission Date</th>
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Description</th>
+                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #eee;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 10px;">BILL-001</td>
+                <td style="padding: 10px;">ABC Organization</td>
+                <td style="padding: 10px;">₹45,000</td>
+                <td style="padding: 10px;">2023-06-15</td>
+                <td style="padding: 10px;">Food supplies for June 2023</td>
+                <td style="padding: 10px;">
+                  <button class="btn-primary" style="padding: 6px 12px; margin-right: 5px;">Approve</button>
+                  <button class="btn-secondary" style="padding: 6px 12px;">Reject</button>
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 10px;">BILL-002</td>
+                <td style="padding: 10px;">XYZ Foundation</td>
+                <td style="padding: 10px;">₹35,000</td>
+                <td style="padding: 10px;">2023-06-18</td>
+                <td style="padding: 10px;">Staff salary for June 2023</td>
+                <td style="padding: 10px;">
+                  <button class="btn-primary" style="padding: 6px 12px; margin-right: 5px;">Approve</button>
+                  <button class="btn-secondary" style="padding: 6px 12px;">Reject</button>
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 10px;">BILL-003</td>
+                <td style="padding: 10px;">PQR Trust</td>
+                <td style="padding: 10px;">₹25,000</td>
+                <td style="padding: 10px;">2023-06-20</td>
+                <td style="padding: 10px;">Kitchen equipment purchase</td>
+                <td style="padding: 10px;">
+                  <button class="btn-primary" style="padding: 6px 12px; margin-right: 5px;">Approve</button>
+                  <button class="btn-secondary" style="padding: 6px 12px;">Reject</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Notification -->
+  <div id="notification" class="notification hidden">
+    <div class="notification-content">
+      <p id="notification-message"></p>
+      <button id="notification-close">&times;</button>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - PM Poshan Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2>PM Poshan Portal</h2>
+        <p>Administrator Dashboard</p>
+      </div>
+      
+      <nav>
+        <ul>
+          <li><a href="admin-dashboard.html" class="active" data-page="admin-dashboard">Dashboard</a></li>
+          <li><a href="bill-approval.html" data-page="bill-approval">Approve Bills</a></li>
+          <li><a href="grant-allocation.html" data-page="grant-allocation">Allocate Grants</a></li>
+          <li><a href="report-generation.html" data-page="report-generation">Generate Reports</a></li>
+          <li><a href="organization-management.html" data-page="organization-management">Manage Organizations</a></li>
+          <li><a href="notifications.html" data-page="notifications">Notifications</a></li>
+        </ul>
+      </nav>
+      
+      <div style="padding: 20px;">
+        <button id="admin-logout" class="btn-secondary">Logout</button>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <header>
+        <h1>Admin Dashboard</h1>
+        <p>Overview of PM Poshan system statistics</p>
+      </header>
+      
+      <!-- Stats Cards -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <h3>Pending Bills</h3>
+          <div class="stat-value">15</div>
+          <p class="stat-description">Bills requiring your approval</p>
+          <a href="bill-approval.html">View pending bills</a>
+        </div>
+        
+        <div class="stat-card">
+          <h3>Total Grants Allocated</h3>
+          <div class="stat-value">₹5,000,000</div>
+          <div class="stat-details">
+            <div>Utilized: ₹3,200,000</div>
+            <div>Remaining: ₹1,800,000</div>
+          </div>
+          <a href="grant-allocation.html">Manage grants</a>
+        </div>
+        
+        <div class="stat-card">
+          <h3>Organizations</h3>
+          <div class="stat-value">8</div>
+          <p class="stat-description">Active organizations in the system</p>
+          <a href="organization-management.html">Manage organizations</a>
+        </div>
+      </div>
+      
+      <!-- Additional Stats -->
+      <div class="additional-stats">
+        <div class="stat-card wide">
+          <h3>Bill Status Overview</h3>
+          <div class="bill-status">
+            <div class="status-item">
+              <span class="status-label">Pending Approval</span>
+              <span class="status-value pending">15</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Approved</span>
+              <span class="status-value approved">45</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Rejected</span>
+              <span class="status-value rejected">12</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="stat-card wide">
+          <h3>Quick Actions</h3>
+          <div class="quick-actions">
+            <a href="report-generation.html" class="btn-secondary">Generate Reports</a>
+            <a href="bill-approval.html" class="btn-secondary">Approve Pending Bills</a>
+            <a href="grant-allocation.html" class="btn-secondary">Allocate New Grants</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Notification -->
+  <div id="notification" class="notification hidden">
+    <div class="notification-content">
+      <p id="notification-message"></p>
+      <button id="notification-close">&times;</button>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
